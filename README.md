@@ -1,1 +1,123 @@
-# client-side-webproject
+# Gaming Marketplace
+
+A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
+
+## Project Structure
+
+### Team Responsibilities
+
+#### Ormir (Frontend Focus)
+- [x] Initial project setup with Next.js and dependencies
+- [ ] Add basic folder structure and component templates
+- [ ] Implement header and navigation components
+- [ ] Create initial page layouts (home, about, contact)
+- [ ] Add authentication UI components (login/register forms)
+- [ ] Implement product list and product card components
+- [ ] Add shopping cart UI and functionality
+- [ ] Style homepage and product pages with Tailwind
+- [ ] Implement responsive design across all pages
+- [ ] Add form validation with react-hook-form
+- [ ] Write frontend component tests
+- [ ] Final UI polish and bug fixes
+
+#### Eros (Backend/Integration Focus)
+- [ ] Setup MongoDB connection and initial config
+- [ ] Create database models (User, Product)
+- [ ] Implement NextAuth configuration
+- [ ] Add API routes for products CRUD operations
+- [ ] Implement user authentication and protected routes
+- [ ] Add admin panel backend functionality
+- [ ] Integrate shopping cart with backend
+- [ ] Setup user profile functionality
+- [ ] Add API tests and error handling
+- [ ] Implement search and filtering functionality
+- [ ] Setup deployment configuration
+- [ ] Update documentation and README
+
+## Tech Stack
+- Next.js
+- TypeScript
+- Tailwind CSS
+- MongoDB
+- NextAuth.js
+
+## Development Timeline
+
+### Day 1: Core Development
+
+#### Phase 1: Project Setup (30 min)
+- [x] Initialize Next.js project
+- [x] Install core dependencies
+- [x] Setup Tailwind CSS
+- [ ] Configure MongoDB connection
+
+#### Phase 2: Core Structure (1 hour)
+- [ ] Create components directory
+- [ ] Setup basic layout components
+- [ ] Configure authentication
+
+#### Phase 3: Pages Implementation (2 hours)
+- [ ] Create home page
+- [ ] Setup authentication pages
+- [ ] Add product listing pages
+- [ ] Implement dashboard structure
+
+#### Phase 4: Authentication (2 hours)
+- [ ] Setup NextAuth
+- [ ] Implement role-based access
+- [ ] Add protected routes
+
+#### Phase 5: Database Integration (1.5 hours)
+- [ ] Create data models
+- [ ] Setup API routes
+- [ ] Implement CRUD operations
+
+### Day 2: Polish & Deployment
+
+#### Phase 6: Frontend CRUD (2 hours)
+- [ ] Complete product management
+- [ ] Add user interactions
+- [ ] Implement shopping cart
+
+#### Phase 7-8: Features & UI (2 hours)
+- [ ] Complete dashboard
+- [ ] Add admin functionality
+- [ ] Implement user profiles
+
+#### Phase 9-10: Enhancement (1.5 hours)
+- [ ] Apply styling
+- [ ] Add form validation
+- [ ] Implement responsive design
+
+#### Phase 11-13: Finalization (2 hours)
+- [ ] Write tests
+- [ ] Deploy to Vercel
+- [ ] Complete documentation
+
+## Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/gaming-marketplace.git
+
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
+
+## Commit Guidelines
+
+Use semantic commit messages:
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Styling updates
+- `refactor:` - Code refactoring
+- `test:` - Adding tests
+- `chore:` - Maintenance tasks
+
+Example: `feat: add product listing component`
