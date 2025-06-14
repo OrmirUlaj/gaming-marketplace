@@ -1,8 +1,19 @@
-import type { NextConfig } from "next";
+// next.config.ts
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
-};
 
-export default nextConfig;
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com', // your image host
+        port: '',                         // no custom port
+        pathname: '/**',                  // allow any path
+      },
+    ],
+  },
+}
+
+export default nextConfig
