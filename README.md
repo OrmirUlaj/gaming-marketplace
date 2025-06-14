@@ -8,10 +8,10 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 
 #### Ormir (Frontend Focus)
 - [x] Initial project setup with Next.js and dependencies
-- [ ] Add basic folder structure and component templates
-- [ ] Implement header and navigation components
-- [ ] Create initial page layouts (home, about, contact)
-- [ ] Add authentication UI components (login/register forms)
+- [x] Add basic folder structure and component templates
+- [x] Implement header and navigation components
+- [x] Create initial page layouts (home, about, contact)
+- [x] Add authentication UI components (login/register forms)
 - [ ] Implement product list and product card components
 - [ ] Add shopping cart UI and functionality
 - [ ] Style homepage and product pages with Tailwind
@@ -52,8 +52,8 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [ ] Configure MongoDB connection
 
 #### Phase 2: Core Structure (1 hour)
-- [ ] Create components directory
-- [ ] Setup basic layout components
+- [x] Create components directory
+- [x] Setup basic layout components
 - [ ] Configure authentication
 
 #### Phase 3: Pages Implementation (2 hours)
