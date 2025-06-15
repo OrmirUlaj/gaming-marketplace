@@ -1,7 +1,52 @@
 import Image from "next/image";
 import { Product } from "@/types/models/Product";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
-export default function ProductCard({ product }: { product: Product }) {
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
+  const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
+
+  const handleAddToCart = async () => {
+    // Ensure the user is logged in before attempting to add product to cart
+    if (!session || !session.user?.id) {
+      setError("Please log in to add products to your cart.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    try {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: session.user.id,
+          gameId: product.id, // assuming your cart expects a gameId that maps to product.id
+          quantity: 1, // You can expand this to allow quantity input
+        }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        setError(result.message || "Failed to add product to cart.");
+      } else {
+        setSuccess("Product added to cart!");
+      }
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unknown error occurred.";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white/10 rounded-xl shadow-lg overflow-hidden flex flex-col p-4 h-full min-h-[420px]">
       {product.imageUrl && (
@@ -26,11 +71,14 @@ export default function ProductCard({ product }: { product: Product }) {
           ${product.price.toFixed(2)}
         </p>
         <button
-          className="bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 text-white py-2 px-4 rounded font-semibold shadow hover:brightness-110 transition"
-          onClick={() => alert(`Added "${product.title}" to cart!`)}
+          onClick={handleAddToCart}
+          disabled={loading}
+          className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
-          Add to Cart
+          {loading ? "Adding..." : "Add to Cart"}
         </button>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {success && <p className="text-green-500 mt-2">{success}</p>}
       </div>
     </div>
   );

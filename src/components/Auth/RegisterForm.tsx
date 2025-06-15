@@ -11,6 +11,8 @@ interface RegisterFormInputs {
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Add loading state
   const {
     register,
     handleSubmit,
@@ -18,6 +20,9 @@ export default function RegisterForm() {
   } = useForm<RegisterFormInputs>();
 
   const onSubmit = async (data: RegisterFormInputs) => {
+    setError("");
+    setSuccess("");
+    setLoading(true); // <-- Start loading
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -31,10 +36,14 @@ export default function RegisterForm() {
         throw new Error(result.message || "Registration failed");
       }
 
-      // Redirect to login page on success
-      router.push("/auth/login?registered=true");
+      setSuccess("Registration successful! Redirecting to login...");
+      setTimeout(() => {
+        router.push("/auth/login?registered=true");
+      }, 1500); // Show message for 1.5s before redirect
     } catch (error) {
       setError(error instanceof Error ? error.message : "Registration failed");
+    } finally {
+      setLoading(false); // <-- Stop loading
     }
   };
 
@@ -93,6 +102,11 @@ export default function RegisterForm() {
         )}
       </div>
 
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/50 text-green-400 p-3 rounded">
+          {success}
+        </div>
+      )}
       {error && (
         <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-3 rounded">
           {error}
@@ -102,8 +116,9 @@ export default function RegisterForm() {
       <button
         type="submit"
         className="w-full bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 text-white py-2 rounded font-semibold shadow-lg border-2 border-white/30 hover:border-cyan-400 hover:shadow-cyan-400/40 transition"
+        disabled={loading} // <-- Disable while loading
       >
-        Register
+        {loading ? "Registering..." : "Register"} {/* <-- Show loading text */}
       </button>
     </form>
   );

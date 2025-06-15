@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 interface LoginFormInputs {
@@ -11,13 +11,26 @@ interface LoginFormInputs {
 export default function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Add loading state
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  useEffect(() => {
+    if (router.query.registered) {
+      setSuccess("Registration successful! Please log in.");
+      // Optionally remove the query param after showing the message
+      router.replace("/auth/login", undefined, { shallow: true });
+    }
+  }, [router]);
+
   const onSubmit = async (data: LoginFormInputs) => {
+    setError("");
+    setSuccess("");
+    setLoading(true); // <-- Start loading
     try {
       const result = await signIn("credentials", {
         redirect: false,
@@ -28,10 +41,15 @@ export default function LoginForm() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push("/dashboard");
+        setSuccess("Login successful! Redirecting...");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
       }
     } catch {
       setError("An error occurred during login");
+    } finally {
+      setLoading(false); // <-- Stop loading
     }
   };
 
@@ -73,6 +91,11 @@ export default function LoginForm() {
         )}
       </div>
 
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/50 text-green-400 p-3 rounded">
+          {success}
+        </div>
+      )}
       {error && (
         <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-3 rounded">
           {error}
@@ -82,8 +105,9 @@ export default function LoginForm() {
       <button
         type="submit"
         className="w-full bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 text-white py-2 rounded font-semibold shadow-lg border-2 border-white/30 hover:border-cyan-400 hover:shadow-cyan-400/40 transition"
+        disabled={loading} // <-- Disable while loading
       >
-        Sign In
+        {loading ? "Signing in..." : "Sign In"} {/* <-- Show loading text */}
       </button>
     </form>
   );
