@@ -1,4 +1,4 @@
-# Gaming Marketplace
+# Stoom
 
 A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 
@@ -13,7 +13,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Implement header and navigation components
 - [x] Create initial page layouts (home, about, contact)
 - [x] Add authentication UI components (login/register forms)
-- [ ] Implement product list and product card components
+- [x] Implement product list and product card components
 - [ ] Add shopping cart UI and functionality
 - [ ] Style homepage and product pages with Tailwind
 - [ ] Implement responsive design across all pages

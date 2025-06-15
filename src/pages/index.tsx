@@ -1,18 +1,12 @@
 // pages/index.tsx
 
 import { GetServerSideProps, NextPage } from 'next';
-import Image from 'next/image';
 import clientPromise from '../lib/mongodb';
+import ProductList from '@/components/Product/ProductList';
+import { Product } from '@/types/models/Product';
+import Link from "next/link";
 
-export interface Game {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-}
-
-export const getServerSideProps: GetServerSideProps<{ games: Game[] }> = async () => {
+export const getServerSideProps: GetServerSideProps<{ products: Product[] }> = async () => {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
   const docs = await db
@@ -21,54 +15,68 @@ export const getServerSideProps: GetServerSideProps<{ games: Game[] }> = async (
     .sort({ title: 1 })
     .toArray();
 
-  const games: Game[] = docs.map(doc => ({
-    _id: doc._id.toString(),
+  const products: Product[] = docs.map((doc: any) => ({
+    id: doc._id.toString(),
     title: doc.title,
     description: doc.description,
     price: doc.price,
+    category: doc.category || 'PC',
     imageUrl: doc.imageUrl,
+    rating: doc.rating ?? 0,
+    stock: doc.stock ?? 0,
+    createdAt: doc.createdAt ? new Date(doc.createdAt).toISOString() : new Date().toISOString(),
+    updatedAt: doc.updatedAt ? new Date(doc.updatedAt).toISOString() : new Date().toISOString(),
   }));
 
-  return { props: { games } };
+  return { props: { products } };
 };
 
-const Marketplace: NextPage<{ games: Game[] }> = ({ games }) => (
+const Marketplace: NextPage<{ products: Product[] }> = ({ products }) => (
   <main className="container mx-auto py-16 min-h-screen">
     <h1 className="text-4xl font-bold mb-8 text-center text-white drop-shadow">🎮 Gaming Marketplace</h1>
-    {games.length === 0 ? (
+    {products.length === 0 ? (
       <p className="text-gray-300 text-center">No games available right now—try adding some in MongoDB Compass!</p>
     ) : (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {games.map(game => (
-          <div
-            key={game._id}
-            className="bg-white/10 rounded-xl shadow-lg overflow-hidden flex flex-col"
-          >
-            <div className="relative w-full h-48">
-              <Image
-                src={game.imageUrl}
-                alt={game.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-t-xl"
-              />
-            </div>
-            <div className="p-4 flex-1 flex flex-col">
-              <h2 className="text-xl font-semibold text-white mb-2">{game.title}</h2>
-              <p className="text-gray-300 mb-4 flex-1">{game.description}</p>
-              <p className="font-bold text-lg text-white mb-4">${game.price.toFixed(2)}</p>
-              <button
-                className="bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 text-white py-2 px-4 rounded font-semibold shadow hover:brightness-110 transition"
-                onClick={() => alert(`Added "${game.title}" to cart!`)}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <ProductList products={products} />
     )}
   </main>
 );
 
-export default Marketplace;
+export default function HomePage() {
+  return (
+    <main className="container mx-auto py-20 min-h-screen flex flex-col items-center justify-center">
+      <section className="text-center mb-16">
+        <h1 className="text-5xl font-extrabold text-white drop-shadow mb-4">
+          Welcome to <span className="text-cyan-400">Stoom</span>
+        </h1>
+        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          Discover, buy, and sell the best games and gaming accessories. Join the Stoom community and level up your gaming experience!
+        </p>
+        <Link
+          href="/products"
+          className="inline-block bg-gradient-to-r from-cyan-600 via-teal-600 to-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg shadow hover:brightness-110 transition"
+        >
+          Browse Products
+        </Link>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full">
+        <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
+          <span className="text-4xl mb-2">🛒</span>
+          <h2 className="text-xl font-bold text-white mb-2">Huge Selection</h2>
+          <p className="text-gray-300 text-center">Find games and accessories for every platform and taste.</p>
+        </div>
+        <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
+          <span className="text-4xl mb-2">⚡</span>
+          <h2 className="text-xl font-bold text-white mb-2">Fast & Secure</h2>
+          <p className="text-gray-300 text-center">Enjoy quick checkout and secure payments every time.</p>
+        </div>
+        <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
+          <span className="text-4xl mb-2">🌟</span>
+          <h2 className="text-xl font-bold text-white mb-2">Community Driven</h2>
+          <p className="text-gray-300 text-center">Join a passionate community of gamers and sellers on Stoom.</p>
+        </div>
+      </section>
+    </main>
+  );
+}

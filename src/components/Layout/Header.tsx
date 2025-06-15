@@ -24,7 +24,7 @@ export default function Header() {
           className="flex items-center gap-2 font-bold text-2xl text-white"
         >
           <span className="text-3xl drop-shadow-sm">🎮</span>
-          <span className="hidden sm:inline drop-shadow">Gaming Marketplace</span>
+          <span className="hidden sm:inline drop-shadow">Stoom</span>
         </Link>
         {/* Desktop nav */}
         <div className="hidden md:flex gap-6">
