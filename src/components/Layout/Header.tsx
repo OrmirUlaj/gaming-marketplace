@@ -17,15 +17,12 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-500 shadow-lg">
-      <nav className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-bold text-2xl text-white"
-        >
-          <span className="text-3xl drop-shadow-sm">🎮</span>
-          <span className="hidden sm:inline drop-shadow">Stoom</span>
-        </Link>
+    <header className="w-full bg-gradient-to-r from-cyan-700 via-teal-700 to-blue-900 shadow px-2 sm:px-4 md:px-8">
+      <nav className="max-w-7xl mx-auto flex flex-wrap items-center justify-between h-16">
+        <div className="flex items-center gap-2 font-bold text-2xl text-white">
+          <span className="text-3xl">🎮</span>
+          <span className="hidden sm:inline">Stoom</span>
+        </div>
         {/* Desktop nav */}
         <div className="hidden md:flex gap-6">
           {navLinks.map((link) => (
@@ -53,16 +50,19 @@ export default function Header() {
       {open && (
         <div className="md:hidden bg-gradient-to-b from-purple-700 to-pink-500">
           <div className="flex flex-col gap-4 px-6 pb-4 pt-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-white hover:bg-white/20 px-3 py-2 rounded text-lg font-medium"
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <ul className="flex flex-wrap gap-2 sm:gap-4 text-sm sm:text-base">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white hover:bg-white/20 px-3 py-2 rounded text-lg font-medium"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       )}

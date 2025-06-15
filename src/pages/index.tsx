@@ -45,11 +45,11 @@ const Marketplace: NextPage<{ products: Product[] }> = ({ products }) => (
 export default function HomePage() {
   return (
     <main className="container mx-auto py-20 min-h-screen flex flex-col items-center justify-center">
-      <section className="text-center mb-16">
-        <h1 className="text-5xl font-extrabold text-white drop-shadow mb-4">
+      <section className="text-center mb-16 px-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white drop-shadow mb-4">
           Welcome to <span className="text-cyan-400">Stoom</span>
         </h1>
-        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Discover, buy, and sell the best games and gaming accessories. Join the Stoom community and level up your gaming experience!
         </p>
         <Link
@@ -60,22 +60,23 @@ export default function HomePage() {
         </Link>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl w-full px-2 sm:px-4 md:px-8">
         <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
           <span className="text-4xl mb-2">🛒</span>
-          <h2 className="text-xl font-bold text-white mb-2">Huge Selection</h2>
-          <p className="text-gray-300 text-center">Find games and accessories for every platform and taste.</p>
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-2">Huge Selection</h2>
+          <p className="text-gray-300 text-center text-sm sm:text-base">Find games and accessories for every platform and taste.</p>
         </div>
         <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
           <span className="text-4xl mb-2">⚡</span>
-          <h2 className="text-xl font-bold text-white mb-2">Fast & Secure</h2>
-          <p className="text-gray-300 text-center">Enjoy quick checkout and secure payments every time.</p>
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-2">Fast & Secure</h2>
+          <p className="text-gray-300 text-center text-sm sm:text-base">Enjoy quick checkout and secure payments every time.</p>
         </div>
         <div className="bg-white/10 rounded-xl p-6 shadow flex flex-col items-center">
           <span className="text-4xl mb-2">🌟</span>
-          <h2 className="text-xl font-bold text-white mb-2">Community Driven</h2>
-          <p className="text-gray-300 text-center">Join a passionate community of gamers and sellers on Stoom.</p>
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-2">Community Driven</h2>
+          <p className="text-gray-300 text-center text-sm sm:text-base">Join a passionate community of gamers and sellers on Stoom.</p>
         </div>
+        {/* Optionally add a 4th card for balance on xl screens */}
       </section>
     </main>
   );

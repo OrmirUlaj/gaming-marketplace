@@ -15,8 +15,8 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Add authentication UI components (login/register forms)
 - [x] Implement product list and product card components
 - [ ] Add shopping cart UI and functionality
-- [ ] Style homepage and product pages with Tailwind
-- [ ] Implement responsive design across all pages
+- [x] Style homepage and product pages with Tailwind
+- [x] Implement responsive design across all pages
 - [ ] Add form validation with react-hook-form
 - [ ] Write frontend component tests
 - [ ] Final UI polish and bug fixes
