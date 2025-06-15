@@ -26,7 +26,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Setup MongoDB connection and initial config
 - [x] Create database models (User, Product)
 - [x] Add initial API routes for products CRUD operations
-- [ ] Implement NextAuth configuration
+- [x] Implement NextAuth configuration
 - [ ] Implement user authentication and protected routes
 - [ ] Add admin panel backend functionality
 - [ ] Integrate shopping cart with backend
