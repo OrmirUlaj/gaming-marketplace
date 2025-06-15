@@ -7,6 +7,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 ### Team Responsibilities
 
 #### Ormir (Frontend Focus)
+
 - [x] Initial project setup with Next.js and dependencies
 - [x] Add basic folder structure and component templates
 - [x] Implement header and navigation components
@@ -21,10 +22,11 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [ ] Final UI polish and bug fixes
 
 #### Eros (Backend/Integration Focus)
-- [ ] Setup MongoDB connection and initial config
-- [ ] Create database models (User, Product)
+
+- [x] Setup MongoDB connection and initial config
+- [x] Create database models (User, Product)
+- [x] Add initial API routes for products CRUD operations
 - [ ] Implement NextAuth configuration
-- [ ] Add API routes for products CRUD operations
 - [ ] Implement user authentication and protected routes
 - [ ] Add admin panel backend functionality
 - [ ] Integrate shopping cart with backend
@@ -35,6 +37,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [ ] Update documentation and README
 
 ## Tech Stack
+
 - Next.js
 - TypeScript
 - Tailwind CSS
@@ -46,28 +49,33 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 ### Day 1: Core Development
 
 #### Phase 1: Project Setup (30 min)
+
 - [x] Initialize Next.js project
 - [x] Install core dependencies
 - [x] Setup Tailwind CSS
 - [ ] Configure MongoDB connection
 
 #### Phase 2: Core Structure (1 hour)
+
 - [x] Create components directory
 - [x] Setup basic layout components
 - [ ] Configure authentication
 
 #### Phase 3: Pages Implementation (2 hours)
+
 - [ ] Create home page
 - [ ] Setup authentication pages
 - [ ] Add product listing pages
 - [ ] Implement dashboard structure
 
 #### Phase 4: Authentication (2 hours)
+
 - [ ] Setup NextAuth
 - [ ] Implement role-based access
 - [ ] Add protected routes
 
 #### Phase 5: Database Integration (1.5 hours)
+
 - [ ] Create data models
 - [ ] Setup API routes
 - [ ] Implement CRUD operations
@@ -75,21 +83,25 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 ### Day 2: Polish & Deployment
 
 #### Phase 6: Frontend CRUD (2 hours)
+
 - [ ] Complete product management
 - [ ] Add user interactions
 - [ ] Implement shopping cart
 
 #### Phase 7-8: Features & UI (2 hours)
+
 - [ ] Complete dashboard
 - [ ] Add admin functionality
 - [ ] Implement user profiles
 
 #### Phase 9-10: Enhancement (1.5 hours)
+
 - [ ] Apply styling
 - [ ] Add form validation
 - [ ] Implement responsive design
 
 #### Phase 11-13: Finalization (2 hours)
+
 - [ ] Write tests
 - [ ] Deploy to Vercel
 - [ ] Complete documentation
@@ -112,6 +124,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
 ## Commit Guidelines
 
 Use semantic commit messages:
+
 - `feat:` - New features
 - `fix:` - Bug fixes
 - `docs:` - Documentation changes

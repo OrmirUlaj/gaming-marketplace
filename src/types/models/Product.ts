@@ -7,4 +7,6 @@ export interface Product {
     imageUrl: string;
     rating?: number;
     stock: number;
-  }
+    createdAt: Date;
+    updatedAt: Date;
+}

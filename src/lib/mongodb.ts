@@ -1,32 +1,27 @@
 // lib/mongodb.ts
-import { MongoClient, MongoClientOptions } from 'mongodb';
+import { MongoClient } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable in .env.local');
+  throw new Error("Please add your MongoDB URI to .env.local");
 }
 
-const uri: string = process.env.MONGODB_URI;
-const options: MongoClientOptions = {
-  // you can add options here if needed
-};
+const uri = process.env.MONGODB_URI;
+const options = {};
 
-let client: MongoClient;
+declare global {
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
+}
+
 let clientPromise: Promise<MongoClient>;
 
-// Use a global variable to preserve value across module reloads in development
-declare global {
-  // eslint-disable-next-line no-var
-  var _mongoClientPromise: Promise<MongoClient>;
-}
-
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    const client = new MongoClient(uri, options);
     global._mongoClientPromise = client.connect();
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  client = new MongoClient(uri, options);
+  const client = new MongoClient(uri, options);
   clientPromise = client.connect();
 }
 
