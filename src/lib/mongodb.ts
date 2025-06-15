@@ -25,4 +25,12 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect();
 }
 
+// Add this after clientPromise is defined
+if (process.env.NODE_ENV === "development") {
+  // Import and run the validation setup
+  import("./mongodb/validation").then(({ setupCollectionValidation }) => {
+    setupCollectionValidation().catch(console.error);
+  });
+}
+
 export default clientPromise;
