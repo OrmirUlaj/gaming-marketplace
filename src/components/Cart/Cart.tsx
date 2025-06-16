@@ -12,9 +12,16 @@ interface Cart {
   updatedAt: string;
 }
 
+interface Product {
+  _id: string;
+  id?: string;
+  title: string;
+}
+
 export default function Cart() {
   const { data: session } = useSession();
   const [cart, setCart] = useState<Cart | null>(null);
+  const [products, setProducts] = useState<Record<string, Product>>({});
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -27,6 +34,17 @@ export default function Cart() {
           }
           const data = await res.json();
           setCart(data);
+
+          if (data?.items?.length) {
+            const ids = data.items.map((item: CartItem) => item.gameId);
+            const productsRes = await fetch(`/api/products`);
+            const allProducts: Product[] = await productsRes.json();
+            const productMap: Record<string, Product> = {};
+            allProducts.forEach((p) => {
+              productMap[p._id?.toString()] = p;
+            });
+            setProducts(productMap);
+          }
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -51,7 +69,12 @@ export default function Cart() {
         <div>
           {cart.items.map((item, index) => (
             <div key={index} className="border p-2 mb-2">
-              <p>Game ID: {item.gameId}</p>
+              <p>
+                Game:{" "}
+                {products[item.gameId?.toString()]
+                  ? products[item.gameId?.toString()].title
+                  : item.gameId}
+              </p>
               <p>Quantity: {item.quantity}</p>
             </div>
           ))}

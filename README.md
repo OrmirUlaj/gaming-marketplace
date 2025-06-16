@@ -28,8 +28,8 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Add initial API routes for products CRUD operations
 - [x] Implement NextAuth configuration
 - [x] Implement user authentication and protected routes
-- [ ] Add admin panel backend functionality
-- [ ] Integrate shopping cart with backend
+- [x] Add admin panel backend functionality
+- [x] Integrate shopping cart with backend
 - [ ] Setup user profile functionality
 - [ ] Add API tests and error handling
 - [ ] Implement search and filtering functionality

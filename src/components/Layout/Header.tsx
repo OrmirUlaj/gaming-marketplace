@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -15,6 +17,7 @@ const navLinks = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="w-full bg-gradient-to-r from-cyan-700 via-teal-700 to-blue-900 shadow px-2 sm:px-4 md:px-8">
@@ -24,7 +27,7 @@ export default function Header() {
           <span className="hidden sm:inline">Stoom</span>
         </div>
         {/* Desktop nav */}
-        <div className="hidden md:flex gap-6">
+        <div className="hidden md:flex gap-6 items-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -34,6 +37,22 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          {session && (
+            <button
+              onClick={() => signOut({ callbackUrl: "/auth/login" })}
+              title="Sign out"
+              className="ml-2 p-1 rounded transition"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              <ArrowRightOnRectangleIcon className="h-6 w-6 text-red-600 hover:scale-110 transition-transform" />
+            </button>
+          )}
         </div>
         {/* Mobile menu button */}
         <button
@@ -62,6 +81,24 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
+              {session && (
+                <li>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/auth/login" })}
+                    title="Sign out"
+                    className="p-1 rounded transition"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <ArrowRightOnRectangleIcon className="h-6 w-6 text-red-600 hover:scale-110 transition-transform" />
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 import { compare } from "bcryptjs";
 
-export default NextAuth({
+export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
@@ -48,22 +48,22 @@ export default NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role === "admin" || user.role === "user" ? user.role : "user";
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) {
+    async session({ session, token }: { session: any; token: any }) {
+      if (session.user && token) {
+        session.user.role = token.role;
         session.user.id = token.id as string;
-        session.user.role = token.role as "user" | "admin";
       }
       return session;
+    },
+    async jwt({ token, user }: { token: any; user?: any }) {
+      if (user) {
+        token.role = user.role ?? "user";
+        token.id = user.id;
+      }
+      return token;
     },
   },
   pages: {
@@ -71,4 +71,6 @@ export default NextAuth({
     signOut: "/auth/logout",
     error: "/auth/error",
   },
-});
+};
+
+export default NextAuth(authOptions);
