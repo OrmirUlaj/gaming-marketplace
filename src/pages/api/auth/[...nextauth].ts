@@ -1,15 +1,11 @@
 import NextAuth from "next-auth";
-import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
-export const authConfig: NextAuthOptions = {
+export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,29 +14,30 @@ export const authConfig: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("Authorize called", credentials);
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing credentials");
+          console.log("Missing credentials");
+          return null;
         }
-
         const client = await clientPromise;
         const db = client.db(process.env.MONGODB_DB);
         const user = await db
           .collection("users")
           .findOne({ email: credentials.email });
-
+        console.log("User found:", user);
         if (!user) {
-          throw new Error("User not found");
+          console.log("No user found");
+          return null;
         }
-
         const isPasswordValid = await compare(
           credentials.password,
           user.password
         );
-
+        console.log("Password valid:", isPasswordValid);
         if (!isPasswordValid) {
-          throw new Error("Invalid password");
+          console.log("Invalid password");
+          return null;
         }
-
         return {
           id: user._id.toString(),
           email: user.email,
@@ -50,11 +47,14 @@ export const authConfig: NextAuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user.role === "admin" || user.role === "user") ? user.role : "user";
+        token.role = user.role === "admin" || user.role === "user" ? user.role : "user";
       }
       return token;
     },
@@ -71,6 +71,4 @@ export const authConfig: NextAuthOptions = {
     signOut: "/auth/logout",
     error: "/auth/error",
   },
-};
-
-export default NextAuth(authConfig);
+});

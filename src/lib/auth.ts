@@ -11,7 +11,6 @@ export async function createUser(
   if (existingUser) throw new Error("User already exists");
   const hashedPassword = await hash(password, 12);
   const result = await collection.insertOne({
-    id: crypto.randomUUID(),
     name,
     email,
     password: hashedPassword,

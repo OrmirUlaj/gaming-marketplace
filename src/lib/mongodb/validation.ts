@@ -5,23 +5,24 @@ export async function setupCollectionValidation() {
   const db = client.db(process.env.MONGODB_DB);
 
   // Users Collection Validation
-  await db.command({
-    collMod: 'users',
-    validator: {
-      $jsonSchema: {
-        bsonType: 'object',
-        required: ['name', 'email', 'password', 'role', 'createdAt', 'updatedAt'],
-        properties: {
-          name: { bsonType: 'string' },
-          email: { bsonType: 'string' },
-          password: { bsonType: 'string' },
-          role: { enum: ['user', 'admin'] },
-          createdAt: { bsonType: 'date' },
-          updatedAt: { bsonType: 'date' }
-        }
-      }
-    }
-  });
+  // await db.command({
+  //   collMod: 'users',
+  //   validator: {
+  //     $jsonSchema: {
+  //       bsonType: 'object',
+  //       required: ['name', 'email', 'password', 'role', 'createdAt', 'updatedAt'],
+  //       properties: {
+  //         name: { bsonType: 'string' },
+  //         email: { bsonType: 'string' },
+  //         password: { bsonType: 'string' },
+  //         role: { enum: ['user', 'admin'] },
+  //         createdAt: { bsonType: 'date' },
+  //         updatedAt: { bsonType: 'date' }
+  //       },
+  //       additionalProperties: true
+  //     }
+  //   }
+  // });
 
   // Orders Collection Validation
   await db.command({
