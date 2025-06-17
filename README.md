@@ -2,8 +2,6 @@
 
 A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 
-## Project Structure
-
 ### Team Responsibilities
 
 #### Ormir (Frontend Focus)
@@ -30,7 +28,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Implement user authentication and protected routes
 - [x] Add admin panel backend functionality
 - [x] Integrate shopping cart with backend
-- [ ] Setup user profile functionality
+- [x] Setup user profile functionality
 - [ ] Add API tests and error handling
 - [ ] Implement search and filtering functionality
 - [ ] Setup deployment configuration
@@ -43,68 +41,6 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - Tailwind CSS
 - MongoDB
 - NextAuth.js
-
-## Development Timeline
-
-### Day 1: Core Development
-
-#### Phase 1: Project Setup (30 min)
-
-- [x] Initialize Next.js project
-- [x] Install core dependencies
-- [x] Setup Tailwind CSS
-- [ ] Configure MongoDB connection
-
-#### Phase 2: Core Structure (1 hour)
-
-- [x] Create components directory
-- [x] Setup basic layout components
-- [ ] Configure authentication
-
-#### Phase 3: Pages Implementation (2 hours)
-
-- [ ] Create home page
-- [ ] Setup authentication pages
-- [ ] Add product listing pages
-- [ ] Implement dashboard structure
-
-#### Phase 4: Authentication (2 hours)
-
-- [ ] Setup NextAuth
-- [ ] Implement role-based access
-- [ ] Add protected routes
-
-#### Phase 5: Database Integration (1.5 hours)
-
-- [ ] Create data models
-- [ ] Setup API routes
-- [ ] Implement CRUD operations
-
-### Day 2: Polish & Deployment
-
-#### Phase 6: Frontend CRUD (2 hours)
-
-- [ ] Complete product management
-- [ ] Add user interactions
-- [ ] Implement shopping cart
-
-#### Phase 7-8: Features & UI (2 hours)
-
-- [ ] Complete dashboard
-- [ ] Add admin functionality
-- [ ] Implement user profiles
-
-#### Phase 9-10: Enhancement (1.5 hours)
-
-- [ ] Apply styling
-- [ ] Add form validation
-- [ ] Implement responsive design
-
-#### Phase 11-13: Finalization (2 hours)
-
-- [ ] Write tests
-- [ ] Deploy to Vercel
-- [ ] Complete documentation
 
 ## Getting Started
 
@@ -119,7 +55,7 @@ npm install
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see the application.
+Visit [http://localhost:3000] to see the application.
 
 ## Commit Guidelines
 
