@@ -3,21 +3,41 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 
-const navLinks = [
+// Navigation links that are always visible
+const publicNavLinks = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+];
+
+// Navigation links only visible when NOT logged in
+const guestNavLinks = [
+  { href: "/auth/login", label: "Login" },
+  { href: "/auth/register", label: "Register" },
+];
+
+// Navigation links only visible when logged in
+const authenticatedNavLinks = [
   { href: "/cart", label: "Cart" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/profile", label: "Profile" },
-  { href: "/auth/login", label: "Login" },
-  { href: "/auth/register", label: "Register" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+
+  // Combine navigation links based on authentication status
+  const getNavLinks = () => {
+    if (session) {
+      return [...publicNavLinks, ...authenticatedNavLinks];
+    } else {
+      return [...publicNavLinks, ...guestNavLinks];
+    }
+  };
+
+  const navLinks = getNavLinks();
 
   return (
     <header className="w-full bg-gradient-to-r from-cyan-700 via-teal-700 to-blue-900 shadow px-2 sm:px-4 md:px-8">
@@ -25,8 +45,7 @@ export default function Header() {
         <div className="flex items-center gap-2 font-bold text-2xl text-white">
           <span className="text-3xl">🎮</span>
           <span className="hidden sm:inline">Stoom</span>
-        </div>
-        {/* Desktop nav */}
+        </div>        {/* Desktop nav */}
         <div className="hidden md:flex gap-6 items-center">
           {navLinks.map((link) => (
             <Link
@@ -38,20 +57,19 @@ export default function Header() {
             </Link>
           ))}
           {session && (
-            <button
-              onClick={() => signOut({ callbackUrl: "/auth/login" })}
-              title="Sign out"
-              className="ml-2 p-1 rounded transition"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              <ArrowRightOnRectangleIcon className="h-6 w-6 text-red-600 hover:scale-110 transition-transform" />
-            </button>
+            <div className="flex items-center gap-3 ml-4 pl-4 border-l border-white/30">
+              <span className="text-white/90 text-sm">
+                Welcome, {session.user?.name || session.user?.email || 'User'}
+              </span>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                title="Sign out"
+                className="flex items-center gap-1 px-3 py-1 rounded bg-red-600/20 hover:bg-red-600/30 transition text-red-200 hover:text-red-100"
+              >
+                <ArrowRightOnRectangleIcon className="h-4 w-4" />
+                <span className="text-sm">Logout</span>
+              </button>
+            </div>
           )}
         </div>
         {/* Mobile menu button */}
@@ -64,17 +82,21 @@ export default function Header() {
           <span className="block w-7 h-1 bg-white mb-1 rounded"></span>
           <span className="block w-7 h-1 bg-white rounded"></span>
         </button>
-      </nav>
-      {/* Mobile nav */}
+      </nav>      {/* Mobile nav */}
       {open && (
         <div className="md:hidden bg-gradient-to-b from-purple-700 to-pink-500">
           <div className="flex flex-col gap-4 px-6 pb-4 pt-2">
+            {session && (
+              <div className="text-white/90 text-sm border-b border-white/20 pb-2">
+                Welcome, {session.user?.name || session.user?.email || 'User'}
+              </div>
+            )}
             <ul className="flex flex-wrap gap-2 sm:gap-4 text-sm sm:text-base">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white hover:bg-white/20 px-3 py-2 rounded text-lg font-medium"
+                    className="text-white hover:bg-white/20 px-3 py-2 rounded text-lg font-medium block"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -84,18 +106,14 @@ export default function Header() {
               {session && (
                 <li>
                   <button
-                    onClick={() => signOut({ callbackUrl: "/auth/login" })}
-                    title="Sign out"
-                    className="p-1 rounded transition"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
+                    onClick={() => {
+                      signOut({ callbackUrl: "/" });
+                      setOpen(false);
                     }}
+                    className="flex items-center gap-2 px-3 py-2 rounded bg-red-600/20 hover:bg-red-600/30 transition text-red-200 hover:text-red-100 text-lg font-medium"
                   >
-                    <ArrowRightOnRectangleIcon className="h-6 w-6 text-red-600 hover:scale-110 transition-transform" />
+                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                    <span>Logout</span>
                   </button>
                 </li>
               )}

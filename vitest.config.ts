@@ -8,5 +8,16 @@ export default defineConfig({
     alias: {
       '@/': '/src/',
     },
+    css: true,
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
+  // Add esbuild configuration for JSX
+  esbuild: {
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
   },
 });

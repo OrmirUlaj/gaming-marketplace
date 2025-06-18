@@ -22,13 +22,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     setLoading(true);
     setError("");
     setSuccess("");
-    try {
-      const res = await fetch("/api/cart", {
+    try {      const res = await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: session.user.id,
-          gameId: product.id, // assuming your cart expects a gameId that maps to product.id
+          gameId: (product as unknown as { _id?: string })._id || product.id, // Use _id from MongoDB or fallback to id
           quantity: 1, // You can expand this to allow quantity input
         }),
       });
@@ -66,16 +65,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         </h2>
         <p className="text-gray-300 mb-4 flex-1 text-sm sm:text-base">
           {product.description}
-        </p>
-        <p className="font-bold text-base sm:text-lg text-white mb-4">
+        </p>        <p className="font-bold text-base sm:text-lg text-white mb-4">
           ${product.price.toFixed(2)}
         </p>
         <button
           onClick={handleAddToCart}
-          disabled={loading}
+          disabled={loading || product.stock === 0}
           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? "Adding..." : "Add to Cart"}
+          {loading ? "Adding..." : product.stock === 0 ? "Out of Stock" : "Add to Cart"}
         </button>
         {error && <p className="text-red-500 mt-2">{error}</p>}
         {success && <p className="text-green-500 mt-2">{success}</p>}
