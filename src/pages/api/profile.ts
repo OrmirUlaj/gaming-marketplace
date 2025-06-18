@@ -4,8 +4,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import bcrypt from "bcryptjs";
+import { withErrorHandler } from "@/utils/apiErrorHandler";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
   if (!session || !session.user?.id) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -40,3 +41,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader("Allow", ["GET", "PATCH"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
+export default withErrorHandler(handler);

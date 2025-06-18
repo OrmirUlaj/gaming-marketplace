@@ -1,30 +1,34 @@
-import clientPromise from '@/lib/mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
+import clientPromise from "@/lib/mongodb";
+import { withErrorHandler } from "@/utils/apiErrorHandler";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
-  switch (req.method) {
-    case 'GET':
-      // Use the "games" collection instead of "products"
-      const products = await db.collection('games').find({}).toArray();
-      return res.status(200).json(products);
+  if (req.method === "GET") {
+    const { search = "", category, minPrice, maxPrice } = req.query;
 
-    case 'POST':
-      const product = {
-        ...req.body,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      const result = await db.collection('games').insertOne(product);
-      return res.status(201).json({ id: result.insertedId });
+    // Build filter object
+    const filter: any = {};
+    if (search) {
+      filter.title = { $regex: search, $options: "i" };
+    }
+    if (category) {
+      filter.category = category;
+    }
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
 
-    default:
-      res.setHeader('Allow', ['GET', 'POST']);
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
+    const products = await db.collection("games").find(filter).toArray();
+    return res.status(200).json(products);
   }
+
+  res.setHeader("Allow", ["GET"]);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
+export default withErrorHandler(handler);

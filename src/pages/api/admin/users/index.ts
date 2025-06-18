@@ -2,8 +2,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]";
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
+import { withErrorHandler } from "@/utils/apiErrorHandler";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
   if (
     !session ||
@@ -25,3 +26,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader("Allow", ["GET"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
+export default withErrorHandler(handler);

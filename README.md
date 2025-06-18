@@ -29,8 +29,8 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [x] Add admin panel backend functionality
 - [x] Integrate shopping cart with backend
 - [x] Setup user profile functionality
-- [ ] Add API tests and error handling
-- [ ] Implement search and filtering functionality
+- [x] Add API tests and error handling
+- [x] Implement search and filtering functionality
 - [ ] Setup deployment configuration
 - [ ] Update documentation and README
  

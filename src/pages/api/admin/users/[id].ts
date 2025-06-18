@@ -3,8 +3,9 @@ import { authOptions } from "../../auth/[...nextauth]";
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { withErrorHandler } from "@/utils/apiErrorHandler";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
   if (
     !session ||
@@ -13,12 +14,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     typeof (session as any).user !== "object" ||
     (session as any).user.role !== "admin"
   ) {
-    return res.status(403).json({ message: "Forbidden" });
+    res.status(403).json({ message: "Forbidden" });
+    return;
   }
 
   const { id } = req.query;
   if (!id || typeof id !== "string") {
-    return res.status(400).json({ message: "Invalid user id" });
+    res.status(400).json({ message: "Invalid user id" });
+    return;
   }
 
   const client = await clientPromise;
@@ -26,7 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === "DELETE") {
     await db.collection("users").deleteOne({ _id: new ObjectId(id) });
-    return res.status(204).end();
+    res.status(204).end();
+    return;
   }
 
   if (req.method === "PATCH") {
@@ -35,7 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (name) update.name = name;
     if (role) update.role = role;
     if (Object.keys(update).length === 0) {
-      return res.status(400).json({ message: "No fields to update" });
+      res.status(400).json({ message: "No fields to update" });
+      return;
     }
     update.updatedAt = new Date();
     await db.collection("users").updateOne(
@@ -48,3 +53,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader("Allow", ["DELETE", "PATCH"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
+export default withErrorHandler(handler);
