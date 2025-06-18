@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.9.1",
@@ -37,7 +38,6 @@
     "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
-    "identity-obj-proxy": "^3.0.0",
     "jsdom": "^26.1.0",
     "node-mocks-http": "^1.17.2",
     "prettier": "^3.5.3",

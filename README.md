@@ -33,7 +33,7 @@ A modern gaming marketplace built with Next.js, TypeScript, and Tailwind CSS.
 - [ ] Implement search and filtering functionality
 - [ ] Setup deployment configuration
 - [ ] Update documentation and README
-
+ 
 ## Tech Stack
 
 - Next.js
